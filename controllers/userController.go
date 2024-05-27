@@ -1,11 +1,18 @@
 package controllers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/muhammad-rifqi/go_apps/database"
+	"github.com/muhammad-rifqi/go_apps/entity"
+)
 
 func UserControllerShow(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{
-		"id":       "1",
-		"username": "rifqi",
-		"password": "12345",
-	})
+	var users []entity.User
+	err := database.Database.Find(&users).Error
+	if err != nil {
+		log.Println(err)
+	}
+	return c.JSON(users)
 }
